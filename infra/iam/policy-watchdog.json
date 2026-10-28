@@ -1,0 +1,47 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Logs",
+      "Effect": "Allow",
+      "Action": ["logs:CreateLogStream", "logs:PutLogEvents"],
+      "Resource": "arn:aws:logs:${AWS_REGION}:${AWS_ACCOUNT_ID}:log-group:/aws/lambda/cnpj-rf-watchdog:*"
+    },
+    {
+      "Sid": "ListarPrefixoCnpj",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::${CNPJ_BUCKET}",
+      "Condition": {
+        "StringLike": { "s3:prefix": ["cnpj/*"] }
+      }
+    },
+    {
+      "Sid": "LerEstado",
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::${CNPJ_BUCKET}/state/*"
+    },
+    {
+      "Sid": "GravarEstado",
+      "Effect": "Allow",
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::${CNPJ_BUCKET}/state/*"
+    },
+    {
+      "Sid": "VerInstancias",
+      "Effect": "Allow",
+      "Action": "ec2:DescribeInstances",
+      "Resource": "*"
+    },
+    {
+      "Sid": "LigarPararWorker",
+      "Effect": "Allow",
+      "Action": ["ec2:StartInstances", "ec2:StopInstances"],
+      "Resource": "arn:aws:ec2:${AWS_REGION}:${AWS_ACCOUNT_ID}:instance/*",
+      "Condition": {
+        "StringEquals": { "ec2:ResourceTag/Project": "cnpj-s3" }
+      }
+    }
+  ]
+}

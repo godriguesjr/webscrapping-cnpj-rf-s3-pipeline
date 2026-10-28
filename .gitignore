@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+build/
+
+# artefatos de deploy
+*.zip
+*.tar.gz
+*.log
+
+# configuração local (nunca versionar)
+.env
+.env.*
+!.env.example
+rclone.conf
+.aws/
+credentials
+
+# sistema
+.DS_Store
+Thumbs.db
+desktop.ini

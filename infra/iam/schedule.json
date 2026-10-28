@@ -1,0 +1,16 @@
+{
+  "Name": "cnpj-rf-diario",
+  "ScheduleExpression": "cron(30 23 * * ? *)",
+  "ScheduleExpressionTimezone": "America/Sao_Paulo",
+  "FlexibleTimeWindow": { "Mode": "OFF" },
+  "State": "ENABLED",
+  "Description": "Verifica a base CNPJ na origem e liga o worker se faltar arquivo",
+  "Target": {
+    "Arn": "arn:aws:lambda:${AWS_REGION}:${AWS_ACCOUNT_ID}:function:cnpj-rf-watchdog",
+    "RoleArn": "arn:aws:iam::${AWS_ACCOUNT_ID}:role/cnpj-rf-scheduler",
+    "RetryPolicy": {
+      "MaximumRetryAttempts": 2,
+      "MaximumEventAgeInSeconds": 3600
+    }
+  }
+}

@@ -1,0 +1,26 @@
+[Unit]
+Description=Extracao mensal CNPJ (Receita -> S3)
+Documentation=file:///opt/cnpj/lote.py
+After=network-online.target
+Wants=network-online.target
+# Nunca reinicia em loop: se falhar, o estado fica em state/last-run.json
+StartLimitIntervalSec=0
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/cnpj
+Environment=PYTHONUNBUFFERED=1
+Environment=RCLONE_CONFIG=/opt/cnpj/rclone.conf
+Environment=AWS_DEFAULT_REGION=us-east-1
+# CNPJ_BUCKET, CNPJ_DESDE e AWS_REGION (escrito pelo bootstrap)
+EnvironmentFile=/opt/cnpj/cnpj.env
+ExecStart=/opt/cnpj/venv/bin/python /opt/cnpj/lote.py
+ExecStopPost=/opt/cnpj/parar.sh
+StandardOutput=append:/var/log/cnpj-lote.log
+StandardError=append:/var/log/cnpj-lote.log
+TimeoutStartSec=12h
+# Nao ha shutdown aqui: o proprio lote.py chama StopInstances.
+# Se o SO for desligado, InstanceInitiatedShutdownBehavior=terminate encerra a maquina.
+
+[Install]
+WantedBy=multi-user.target

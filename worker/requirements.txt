@@ -1,0 +1,7 @@
+# Versoes fixas. O build gera tambem requirements.lock (pip freeze) para
+# reproducao exata, incluindo dependencias transitivas.
+boto3==1.43.118
+botocore==1.43.118
+s3transfer==0.19.3
+jmespath==1.1.0
+urllib3==2.8.0
