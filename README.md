@@ -8,6 +8,8 @@ inteiro só para baixar isso é desperdício; fazer o download na mão todo mês
 esquecer. O desenho aqui resolve os dois: um **vigia diário** compara origem e destino
 e só liga a EC2 quando falta arquivo. A máquina baixa, confere e se desliga sozinha.
 
+![Arquitetura do pipeline CNPJ → S3: painel esquerdo com o que está implementado hoje e painel direito com o projeto futuro (Glue, Athena, Redshift)](docs/arquitetura-atual-futuro.png)
+
 ## Como funciona
 
 ```
